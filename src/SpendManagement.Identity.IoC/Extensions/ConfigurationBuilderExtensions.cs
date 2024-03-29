@@ -12,15 +12,16 @@ namespace SpendManagement.Identity.IoC.Extensions
 
             if (!env.IsDevelopment())
             {
-                settings!.SqlServerSettings!.ConnectionString = GetConnectionStringFromRenderSecret();
+                settings!.SqlServerSettings!.ConnectionString = GetEnvironmentVariableFromRender("ConnectionString");
+                settings!.JwtOptionsSettings!.SecurityKey = GetEnvironmentVariableFromRender("Token_Authentication");
             }
 
             return settings!;
         }
 
-        private static string GetConnectionStringFromRenderSecret()
+        private static string GetEnvironmentVariableFromRender(string variableName)
         {
-            return Environment.GetEnvironmentVariable("ConnectionString")!;
+            return Environment.GetEnvironmentVariable(variableName) ?? "";
         }
     }
 }
