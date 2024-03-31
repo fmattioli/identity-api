@@ -12,7 +12,7 @@ namespace SpendManagement.Identity.IoC.Extensions
 
             if (!env.IsDevelopment())
             {
-                settings!.SqlServerSettings!.ConnectionString = GetEnvironmentVariableFromRender("ConnectionStringPostgres");
+                settings!.SqlServerSettings!.ConnectionString = GetEnvironmentVariableFromRender("ConnectionString_Postgres");
                 settings!.JwtOptionsSettings!.SecurityKey = GetEnvironmentVariableFromRender("Token_Authentication");
             }
 
