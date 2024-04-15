@@ -45,11 +45,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Build Docker image
-        run: docker build -t fmattioli/spendmanagement-identity-api:1.0.0.0 .
+        run: docker build -t fmattioli/spendmanagement-identity-api:1.0.0.1 --build-arg ASPNETCORE_ENVIRONMENT=Development .
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
       - name: Push Docker image to Docker Hub
-        run: docker push fmattioli/spendmanagement-identity-api:1.0.0.0
+        run: docker push fmattioli/spendmanagement-identity-api:1.0.0.1
 
   # Label of the container job
   container-job:
