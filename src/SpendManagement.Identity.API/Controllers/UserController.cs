@@ -39,8 +39,8 @@ namespace SpendManagement.Identity.API.Controllers
                 await _identityService.AddUserInClaimAsync(new AddUserInClaimRequest
                 {
                     Email = signUp.Email,
-                    Claims = new List<UserClaim>
-                    {
+                    Claims =
+                    [
                         new()
                         {
                             ClaimType = ClaimType.Category,
@@ -51,7 +51,7 @@ namespace SpendManagement.Identity.API.Controllers
                             ClaimType = ClaimType.Receipt,
                             ClaimValue = ClaimValue.Read
                         }
-                    }
+                    ]
                 });
 
                 return Created("/signUp", userSignedIn);

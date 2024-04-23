@@ -3,10 +3,10 @@ using FluentAssertions;
 using Newtonsoft.Json;
 using SpendManagement.Identity.Application.Requests;
 using SpendManagement.Identity.Application.Responses;
-using SpendManagement.IntegrationTests.Utils;
+using SpendManagement.Identity.IntegrationTests.Utils;
 using System.Net;
 
-namespace SpendManagement.IntegrationTests.Controllers
+namespace SpendManagement.Identity.IntegrationTests.Controllers
 {
     public class UserControllerTests : HttpBaseTests
     {

@@ -8,7 +8,7 @@ using SpendManagement.Identity.Application.Responses;
 using SpendManagement.Identity.Application.Services;
 using System.Security.Claims;
 
-namespace SpendManagement.UnitTests.Controllers
+namespace Controllers
 {
     public class UserControllerTests
     {

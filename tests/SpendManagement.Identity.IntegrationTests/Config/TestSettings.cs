@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace SpendManagement.IntegrationTests.Config
+namespace SpendManagement.Identity.IntegrationTests.Config
 {
     public static class TestSettings
     {

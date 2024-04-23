@@ -3,14 +3,12 @@
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
-
-using SpendManagement.IntegrationTests.Config;
-
+using SpendManagement.Identity.IntegrationTests.Config;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Text;
 
-namespace SpendManagement.IntegrationTests.Utils
+namespace SpendManagement.Identity.IntegrationTests.Utils
 {
     public class HttpBaseTests
     {
@@ -24,12 +22,12 @@ namespace SpendManagement.IntegrationTests.Utils
             _httpClient = webAppFactory.CreateDefaultClient();
         }
 
-        protected async Task<(HttpStatusCode StatusCode, string Content)> PostAsync<T>(string resource, T body, bool generateToken = false) where T: class
+        protected async Task<(HttpStatusCode StatusCode, string Content)> PostAsync<T>(string resource, T body, bool generateToken = false) where T : class
         {
             var json = JsonConvert.SerializeObject(body);
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
-            if(generateToken)
+            if (generateToken)
                 _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", GenerateJWToken());
 
             var url = APIVersion + resource;

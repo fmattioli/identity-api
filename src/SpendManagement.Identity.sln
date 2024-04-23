@@ -11,9 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpendManagement.Identity.Da
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpendManagement.Identity.IoC", "SpendManagement.Identity.IoC\SpendManagement.Identity.IoC.csproj", "{9831E700-174E-4FAD-97C5-959F3A36D7EC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpendManagement.UnitTests", "..\tests\SpendManagement.UnitTests\SpendManagement.UnitTests.csproj", "{296525B0-AD03-41C0-BB1D-045FAA800477}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpendManagement.Identity.UnitTests", "..\tests\SpendManagement.Identity.UnitTests\SpendManagement.Identity.UnitTests.csproj", "{296525B0-AD03-41C0-BB1D-045FAA800477}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpendManagement.IntegrationTests", "..\tests\SpendManagement.IntegrationTests\SpendManagement.IntegrationTests.csproj", "{D9FE0529-83CE-4A44-AD85-622D739E6785}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpendManagement.Identity.IntegrationTests", "..\tests\SpendManagement.Identity.IntegrationTests\SpendManagement.Identity.IntegrationTests.csproj", "{D9FE0529-83CE-4A44-AD85-622D739E6785}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{13FA5060-987A-4BA7-84E5-09F3EAA0748D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,6 +50,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{296525B0-AD03-41C0-BB1D-045FAA800477} = {13FA5060-987A-4BA7-84E5-09F3EAA0748D}
+		{D9FE0529-83CE-4A44-AD85-622D739E6785} = {13FA5060-987A-4BA7-84E5-09F3EAA0748D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {32A3992F-1CAC-437B-9E9F-998C317F38BA}

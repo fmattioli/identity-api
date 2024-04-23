@@ -1,4 +1,4 @@
-﻿namespace SpendManagement.IntegrationTests.Config
+﻿namespace SpendManagement.Identity.IntegrationTests.Config
 {
     public class JwtOptions
     {
