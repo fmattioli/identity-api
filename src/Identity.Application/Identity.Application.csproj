@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SpendManagement.Identity.Data\SpendManagement.Identity.Data.csproj" />
+    <ProjectReference Include="..\Identity.Data\Identity.Data.csproj" />
   </ItemGroup>
 
 </Project>

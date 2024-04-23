@@ -29,8 +29,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SpendManagement.Identity.Application\SpendManagement.Identity.Application.csproj" />
-    <ProjectReference Include="..\SpendManagement.Identity.Data\SpendManagement.Identity.Data.csproj" />
+    <ProjectReference Include="..\Identity.Application\Identity.Application.csproj" />
+    <ProjectReference Include="..\Identity.Data\Identity.Data.csproj" />
   </ItemGroup>
 
 </Project>
