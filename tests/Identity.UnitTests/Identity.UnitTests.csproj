@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\SpendManagement.Identity.API\SpendManagement.Identity.API.csproj" />
+    <ProjectReference Include="..\..\src\Identity.Api\Identity.Api.csproj" />
   </ItemGroup>
 
 </Project>

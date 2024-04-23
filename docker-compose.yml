@@ -12,9 +12,8 @@ services:
       build:
         context: .
         dockerfile: Dockerfile
-      image: spendmanagement_identity:${APP_VERSION}
-      environment:
-        - APP_VERSION=${APP_VERSION}
+      image: spendmanagement_identity
+      
       ports:
         - 9515:8080
       networks:
