@@ -7,24 +7,20 @@ EXPOSE 8082
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
-COPY ["src/SpendManagement.Identity.API/SpendManagement.Identity.API.csproj", "SpendManagement.Identity.API/"]
-COPY ["src/SpendManagement.Identity.IoC/SpendManagement.Identity.IoC.csproj", "SpendManagement.Identity.IoC/"]
-COPY ["src/SpendManagement.Identity.Application/SpendManagement.Identity.Application.csproj", "SpendManagement.Identity.Application/"]
-COPY ["src/SpendManagement.Identity.Data/SpendManagement.Identity.Data.csproj", "SpendManagement.Identity.Data/"]
-RUN dotnet restore "SpendManagement.Identity.API/SpendManagement.Identity.API.csproj"
+COPY ["src/Identity.Api/Identity.Api.csproj", "Identity.Api/"]
+COPY ["src/Identity.IoC/Identity.IoC.csproj", "Identity.IoC/"]
+COPY ["src/Identity.Application/Identity.Application.csproj", "Identity.Application/"]
+COPY ["src/Identity.Data/Identity.Data.csproj", "Identity.Data/"]
+RUN dotnet restore "Identity.Api/Identity.Api.csproj"
 COPY . .
 
-RUN dotnet build "src/SpendManagement.Identity.API/SpendManagement.Identity.API.csproj" -c Release -o /app/build
+RUN dotnet build "src/Identity.Api/Identity.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "src/SpendManagement.Identity.API/SpendManagement.Identity.API.csproj" -c Release -o /app/publish /p:UseAppHost=false
-
-#RUN dotnet tool install --global dotnet-ef
-#ENV PATH="$PATH:/root/.dotnet/tools"
-#RUN dotnet ef database update --context IdentityDataContext -s "src\SpendManagement.Identity.API"
+RUN dotnet publish "src/Identity.Api/Identity.Api.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "SpendManagement.Identity.API.dll"]
+ENTRYPOINT ["dotnet", "Identity.Api.dll"]

@@ -1,3 +1,4 @@
+using SpendManagement.Identity.API.Extensions;
 using SpendManagement.Identity.IoC.Extensions;
 using System.Text.Json.Serialization;
 
@@ -10,7 +11,6 @@ builder.Configuration
     .AddJsonFile($"appsettings.{environment}.json", true, reloadOnChange: true)
     .AddEnvironmentVariables();
 
-
 var applicationSettings = builder.Configuration.GetApplicationSettings(builder.Environment);
 
 builder.Logging
@@ -20,8 +20,8 @@ builder.Logging
 
 // Add services to the container.
 builder.Services
-    //.AddExceptionHandler<GlobalExceptionHandlerExtensions>()
-    //.AddProblemDetails()
+    .AddExceptionHandler<GlobalExceptionHandlerExtensions>()
+    .AddProblemDetails()
     .AddLoggingDependency()
     .AddTracing(applicationSettings!.TracingSettings)
     .AddHealthCheckers(applicationSettings!.SqlServerSettings)
@@ -41,7 +41,7 @@ builder.Services
 
 var app = builder.Build();
 
-//app.UseExceptionHandler();
+app.UseExceptionHandler();
 app.RunMigrationsOnApplicationStart();
 
 app.UseSwagger()

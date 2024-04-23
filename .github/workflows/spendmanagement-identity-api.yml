@@ -17,9 +17,9 @@ jobs:
       with:
         dotnet-version: 8.0.x
     - name: Restore dependencies
-      run: dotnet restore src/SpendManagement.Identity.API/SpendManagement.Identity.API.csproj
+      run: dotnet restore src/Identity.Api/Identity.Api.csproj
     - name: Build
-      run: dotnet build --no-restore --configuration Release src/SpendManagement.Identity.API/SpendManagement.Identity.API.csproj
+      run: dotnet build --no-restore --configuration Release src/Identity.Api/Identity.Api.csproj
 
   unit-tests:
     runs-on: ubuntu-latest
@@ -31,11 +31,11 @@ jobs:
         with:
           dotnet-version: 8.0.x
       - name: Restore dependencies for unit tests
-        run: dotnet restore tests/SpendManagement.Identity.UnitTests/SpendManagement.Identity.UnitTests.csproj
+        run: dotnet restore tests/Identity.UnitTests/Identity.UnitTests.csproj
       - name: Build project
-        run: dotnet build --no-restore --configuration Release tests/SpendManagement.Identity.UnitTests/SpendManagement.Identity.UnitTests.csproj
+        run: dotnet build --no-restore --configuration Release tests/Identity.UnitTests/Identity.UnitTests.csproj
       - name: Run unit tests
-        run: dotnet test --verbosity normal tests/SpendManagement.Identity.UnitTests/SpendManagement.Identity.UnitTests.csproj
+        run: dotnet test --verbosity normal tests/Identity.UnitTests/Identity.UnitTests.csproj
 
   integration-tests:
     runs-on: ubuntu-latest
@@ -64,9 +64,9 @@ jobs:
           dotnet-version: 8.0.x
       - name: Run integration tests
         run: |
-          dotnet restore tests/SpendManagement.Identity.IntegrationTests/SpendManagement.Identity.IntegrationTests.csproj
-          dotnet build --no-restore --configuration Release tests/SpendManagement.Identity.IntegrationTests/SpendManagement.Identity.IntegrationTests.csproj
-          dotnet test --verbosity normal tests/SpendManagement.Identity.IntegrationTests/SpendManagement.Identity.IntegrationTests.csproj      
+          dotnet restore tests/Identity.IntegrationTests/Identity.IntegrationTests.csproj
+          dotnet build --no-restore --configuration Release tests/Identity.IntegrationTests/Identity.IntegrationTests.csproj
+          dotnet test --verbosity normal tests/Identity.IntegrationTests/Identity.IntegrationTests.csproj      
 
   publish-docker-image:
     runs-on: ubuntu-latest
@@ -77,15 +77,15 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Display appsettings before
-        run: cat src/SpendManagement.Identity.API/appsettings.Development.json
+        run: cat src/Identity.Api/appsettings.Development.json
       
       - name: Change connection string
         run: |
-          sed -i 's/localhost/postgres/g' src/SpendManagement.Identity.API/appsettings.Development.json
+          sed -i 's/localhost/postgres/g' src/Identity.Api/appsettings.Development.json
         working-directory: ${{ github.workspace }}
 
       - name: Display appsettings after
-        run: cat src/SpendManagement.Identity.API/appsettings.Development.json
+        run: cat src/Identity.Api/appsettings.Development.json
 
       - name: Build Docker image
         run: docker build -t fmattioli/spendmanagement-identity-api:1.0.0.5 .
