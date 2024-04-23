@@ -26,7 +26,7 @@ namespace SpendManagement.Identity.IoC.Extensions
             return services;
         }
 
-        public static void UseHealthCheckers(this IApplicationBuilder app)
+        public static IApplicationBuilder UseHealthCheckers(this IApplicationBuilder app)
         {
             app.UseHealthChecks("/health", new HealthCheckOptions()
             {
@@ -35,6 +35,8 @@ namespace SpendManagement.Identity.IoC.Extensions
             });
 
             app.UseHealthChecksUI(options => options.UIPath = "/monitor");
+
+            return app;
         }
     }
 }

@@ -1,35 +1,32 @@
 ﻿using Flurl;
-
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
-
-using SpendManagement.IntegrationTests.Config;
-
+using SpendManagement.Identity.IntegrationTests.Config;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Text;
 
-namespace SpendManagement.IntegrationTests.Utils
+namespace SpendManagement.Identity.IntegrationTests.Fixtures
 {
-    public class HttpBaseTests
+    public class HttpFixture
     {
         private readonly HttpClient _httpClient;
         public const string APIVersion = "api/v1";
 
-        public HttpBaseTests()
+        public HttpFixture()
         {
             Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Development");
             var webAppFactory = new WebApplicationFactory<Program>();
             _httpClient = webAppFactory.CreateDefaultClient();
         }
 
-        protected async Task<(HttpStatusCode StatusCode, string Content)> PostAsync<T>(string resource, T body, bool generateToken = false) where T: class
+        public async Task<(HttpStatusCode StatusCode, string Content)> PostAsync<T>(string resource, T body, bool generateToken = false) where T : class
         {
             var json = JsonConvert.SerializeObject(body);
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
-            if(generateToken)
+            if (generateToken)
                 _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", GenerateJWToken());
 
             var url = APIVersion + resource;
@@ -37,7 +34,7 @@ namespace SpendManagement.IntegrationTests.Utils
             return (response.StatusCode, await response.Content.ReadAsStringAsync());
         }
 
-        protected async Task<(HttpStatusCode StatusCode, string Content)> GetAsync(string resource, string email)
+        public async Task<(HttpStatusCode StatusCode, string Content)> GetAsync(string resource, string email)
         {
             _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", GenerateJWToken());
 

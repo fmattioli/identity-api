@@ -3,13 +3,15 @@ using FluentAssertions;
 using Newtonsoft.Json;
 using SpendManagement.Identity.Application.Requests;
 using SpendManagement.Identity.Application.Responses;
-using SpendManagement.IntegrationTests.Utils;
+using SpendManagement.Identity.IntegrationTests.Fixtures;
 using System.Net;
 
-namespace SpendManagement.IntegrationTests.Controllers
+namespace SpendManagement.Identity.IntegrationTests.Controllers
 {
-    public class UserControllerTests : HttpBaseTests
+    [Collection(nameof(SharedFixtureCollection))]
+    public class UserControllerTests(HttpFixture httpFixture)
     {
+        private readonly HttpFixture _httpFixture = httpFixture;
         private readonly Fixture _fixture = new();
 
         [Fact]
@@ -26,7 +28,7 @@ namespace SpendManagement.IntegrationTests.Controllers
                 .Create();
 
             //Act
-            var (StatusCode, Content) = await PostAsync("/signUp", signUpUserRequest);
+            var (StatusCode, Content) = await _httpFixture.PostAsync("/signUp", signUpUserRequest);
 
             //AssertSuccess
             StatusCode.Should().Be(HttpStatusCode.Created);
@@ -47,16 +49,11 @@ namespace SpendManagement.IntegrationTests.Controllers
                 .With(x => x.PasswordConfirmation, $"{password}cAb!")
                 .Create();
 
-            await PostAsync("/signUp", signUpUserRequest);
-
-            var signInUserRequest = _fixture
-                .Build<SignInUserRequest>()
-                .With(x => x.Email, $"{email}@test.com")
-                .With(x => x.Password, $"{password}cAb!")
-                .Create();
+            await _httpFixture.PostAsync("/signUp", signUpUserRequest);
 
             //Act
-            var (StatusCode, Content) = await PostAsync("/login", signUpUserRequest);
+            var (StatusCode, Content) = await _httpFixture.PostAsync("/login", signUpUserRequest);
+            Console.Write(Content);
 
             //AssertSuccess
             StatusCode.Should().Be(HttpStatusCode.OK);
@@ -79,7 +76,7 @@ namespace SpendManagement.IntegrationTests.Controllers
                 .With(x => x.PasswordConfirmation, $"{password}cAb!")
                 .Create();
 
-            await PostAsync("/signUp", signUpUserRequest);
+            await _httpFixture.PostAsync("/signUp", signUpUserRequest);
 
             var claim = _fixture
                 .Build<UserClaim>()
@@ -94,7 +91,7 @@ namespace SpendManagement.IntegrationTests.Controllers
                 .Create();
 
             //Act
-            var (StatusCode, Content) = await PostAsync("/addUserInClaim", addUserInClaimRequest, true);
+            var (StatusCode, Content) = await _httpFixture.PostAsync("/addUserInClaim", addUserInClaimRequest, true);
 
             //Assert
             StatusCode.Should().Be(HttpStatusCode.Created);
@@ -115,7 +112,7 @@ namespace SpendManagement.IntegrationTests.Controllers
                 .With(x => x.PasswordConfirmation, $"{password}cAb!")
                 .Create();
 
-            await PostAsync("/signUp", signUpUserRequest);
+            await _httpFixture.PostAsync("/signUp", signUpUserRequest);
 
             var claimsRequest = _fixture
                 .Build<UserClaim>()
@@ -129,10 +126,10 @@ namespace SpendManagement.IntegrationTests.Controllers
                 .With(x => x.Claims, new List<UserClaim> { claimsRequest })
                 .Create();
 
-            await PostAsync("/addUserInClaim", addUserInClaimRequest, true);
+            await _httpFixture.PostAsync("/addUserInClaim", addUserInClaimRequest, true);
 
             //Act
-            var (StatusCode, Content) = await GetAsync("/getUserClaims", $"{email}@test.com");
+            var (StatusCode, Content) = await _httpFixture.GetAsync("/getUserClaims", $"{email}@test.com");
 
             //Assert
             StatusCode.Should().Be(HttpStatusCode.OK);

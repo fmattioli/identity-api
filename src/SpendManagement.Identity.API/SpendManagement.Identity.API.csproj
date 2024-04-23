@@ -7,20 +7,20 @@
     <UserSecretsId>7950871a-83ab-43e1-8f78-77a4aad1bf7a</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <DocumentationFile>C:\Projetos\spendmanagement\spendmanagement-identity\src\SpendManagement.Identity.API\bin\Debug\net8.0\SpendManagement.Identity.xml</DocumentationFile>
+    <DocumentationFile></DocumentationFile>
     <NoWarn>1701;1702;1591;AD0001</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.3">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.6" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.20.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
   <ItemGroup>
-    <InternalsVisibleTo Include="SpendManagement.IntegrationTests" />
+    <InternalsVisibleTo Include="SpendManagement.Identity.IntegrationTests" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SpendManagement.Identity.IoC\SpendManagement.Identity.IoC.csproj" />
