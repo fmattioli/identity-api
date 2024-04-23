@@ -76,15 +76,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-        # Adiciona um passo para exibir o conteúdo do arquivo antes da alteração
       - name: Display appsettings before
-        run: cat src/Receipts.QueryHandler.Api/appsettings.Development.json
-
-      # Altera a configuração da string de conexão no appsettings.Development.json
+        run: cat src/SpendManagement.Identity.API/appsettings.Development.json
+      
       - name: Change connection string
         run: |
           sed -i 's/localhost/postgres/g' src/SpendManagement.Identity.API/appsettings.Development.json
         working-directory: ${{ github.workspace }}
+
+      - name: Display appsettings after
+        run: cat src/SpendManagement.Identity.API/appsettings.Development.json
 
       - name: Build Docker image
         run: docker build -t fmattioli/spendmanagement-identity-api:1.0.0.5 .

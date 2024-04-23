@@ -31,7 +31,6 @@ namespace SpendManagement.Identity.IntegrationTests.Fixtures
 
             var url = APIVersion + resource;
             using var response = await _httpClient.PostAsync(url, httpContent);
-            Console.WriteLine(response.ReasonPhrase);
             return (response.StatusCode, await response.Content.ReadAsStringAsync());
         }
 

@@ -20,6 +20,8 @@ builder.Logging
 
 // Add services to the container.
 builder.Services
+    //.AddExceptionHandler<GlobalExceptionHandlerExtensions>()
+    //.AddProblemDetails()
     .AddLoggingDependency()
     .AddTracing(applicationSettings!.TracingSettings)
     .AddHealthCheckers(applicationSettings!.SqlServerSettings)
@@ -39,20 +41,20 @@ builder.Services
 
 var app = builder.Build();
 
+//app.UseExceptionHandler();
 app.RunMigrationsOnApplicationStart();
 
-app.UseSwagger();
-app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SpendManagement.Identity"));
-app.UseHealthCheckers();
-
-app.UseHttpsRedirection();
-app.UseAuthentication();
-app.UseAuthorization();
-app.UseCors(builder => builder
-    .SetIsOriginAllowed(_ => true)
-    .AllowAnyMethod()
-    .AllowAnyHeader()
-    .AllowCredentials());
+app.UseSwagger()
+   .UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SpendManagement.Identity"))
+   .UseHealthCheckers()
+   .UseHttpsRedirection()
+   .UseAuthentication()
+   .UseAuthorization()
+   .UseCors(builder => builder
+   .SetIsOriginAllowed(_ => true)
+   .AllowAnyMethod()
+   .AllowAnyHeader()
+   .AllowCredentials());
 
 app.MapControllers();
 app.Run();

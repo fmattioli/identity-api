@@ -31,7 +31,7 @@ namespace SpendManagement.Identity.API.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest();
-            Console.WriteLine("Entrou aqui pelo menos!!!");
+
             var userSignedIn = await _identityService.SignUpAsync(signUp);
 
             if (userSignedIn.Success)
