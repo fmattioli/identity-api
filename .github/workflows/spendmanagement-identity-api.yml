@@ -81,7 +81,7 @@ jobs:
       
       - name: Change connection string
         run: |
-          sed -i 's/localhost/postgres/g' src/Identity.Api/appsettings.Development.json
+          sed -i 's/localhost/postgresql/g' src/Identity.Api/appsettings.Development.json
         working-directory: ${{ github.workspace }}
 
       - name: Display appsettings after
