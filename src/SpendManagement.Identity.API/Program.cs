@@ -44,6 +44,8 @@ var app = builder.Build();
 app.UseExceptionHandler();
 app.RunMigrationsOnApplicationStart();
 
+Console.WriteLine("Criou corretamente as migrations");
+
 app.UseSwagger()
    .UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SpendManagement.Identity"))
    .UseHealthCheckers()
