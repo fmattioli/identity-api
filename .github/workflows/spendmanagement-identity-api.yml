@@ -112,7 +112,6 @@ jobs:
           fi
 
       - name: Bump version - PATCH
-        id: package_version
         if: steps.determine_change_type.outputs.VERSION_UPDATE_TYPE == 'PATCH'
         uses: KageKirin/bump-csproj-version@v1.0.0
         with:
@@ -120,12 +119,11 @@ jobs:
           patch: true
 
       - name: Bump version - MINOR
-        id: package_version
         if: steps.determine_change_type.outputs.VERSION_UPDATE_TYPE == 'MINOR'
         uses: KageKirin/bump-csproj-version@v1.0.0
         with:
           file: "src/Identity.Api/Identity.Api.csproj"
-          patch: true
+          minor: true
 
       - name: Commit new version
         run: |
