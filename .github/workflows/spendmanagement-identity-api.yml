@@ -91,14 +91,14 @@ jobs:
 
       - name: Bump version - MINOR
         if: env.VERSION_UPDATE_TYPE == 'MINOR'
-        uses: KageKirin/bump-csproj-version@v1.0.0
+        uses: KageKirin/bump-csproj-version@v0
         with:
           file: "src/Identity.Api/Identity.Api.csproj"
           minor: true
 
       - name: Bump version - PATCH
         if: env.VERSION_UPDATE_TYPE == 'PATCH'
-        uses: KageKirin/bump-csproj-version@v1.0.0
+        uses: KageKirin/bump-csproj-version@v0
         with:
           file: "src/Identity.Api/Identity.Api.csproj"
           patch: true
@@ -108,8 +108,8 @@ jobs:
           git config user.name "CI - Build - Incrementing version"
           git config user.email "deploy@spendmanagement.com"
           git add .
-          git commit -m "CI: bump version to ${{ steps.simple_patch.outputs.version }}"
-          git tag -m "CI: create new tag" v${{ steps.simple_patch.outputs.version }}
+          git commit -m "CI: bump version to ${{ steps.test.package_version.version }}"
+          git tag -m "CI: create new tag" v${{ steps.test.package_version.version }}
           git push
 
       - name: Print version number
