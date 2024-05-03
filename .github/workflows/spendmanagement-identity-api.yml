@@ -109,8 +109,8 @@ jobs:
           git config user.name "CI - Build - Incrementing version"
           git config user.email "deploy@spendmanagement.com"
           git add .
-          git commit -m "CI: bump version to ${{ steps.test.package_version.version }}"
-          git tag -m "CI: create new tag" v${{ steps.test.package_version.version }}
+          git commit -m "CI: bump version to ${{ steps.simple_patch.outputs.version }}"
+          git tag -m "CI: create new tag" v${{ steps.simple_patch.outputs.version }}
           git push
 
       - name: Print version number
