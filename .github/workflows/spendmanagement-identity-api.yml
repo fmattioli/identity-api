@@ -3,7 +3,7 @@ name: Bump build version on PR to master
 on:
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
   print_commit_message:
