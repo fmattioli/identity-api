@@ -1,23 +1,12 @@
-name: Notify on Pull Request
+name: Bump build version
 
 on:
-  pull_request:
-    branches: [dev]
+  push:
+    branches: [ main ]
 
 jobs:
-  send_notification:
+  print_commit_message:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-          ref: ${{github.event.after}}
-      - name: Get Commit Message
-        run: |
-          MSG=$(git log --format=%B -n 1 ${{github.event.after}})
-          echo "::set-env name=COMMIT_MESSAGE::${MSG}"
-      - name: Echo commit message
-        run: |
-          echo "Commit SHA: ${{github.event.after}}, commit message: ${{env.COMMIT_MESSAGE}} (or ${COMMIT_MESSAGE})"
+      - name: Imprimir Mensagem de Commit
+        run: echo "${{ github.event.workflow_run.head_commit.message }}"
