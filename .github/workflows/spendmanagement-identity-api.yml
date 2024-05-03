@@ -143,7 +143,7 @@ jobs:
         id: get_version
         run: |
           version=$(grep -oP '<Version>([^<]+)</Version>' src/Identity.Api/Identity.Api.csproj | grep -oP '(\d+\.\d+\.\d+)')
-          echo "::set-output name=csproj_version::$version"
+          echo "csproj_version=$version" >> $GITHUB_ENV
 
       - name: Print csproj version
         run: echo "The csproj version is ${{ steps.get_version.outputs.csproj_version }}"
