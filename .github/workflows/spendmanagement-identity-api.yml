@@ -26,8 +26,7 @@ jobs:
     - name: Determinar Tipo de Mudança
       id: determine_change_type
       run: |
-          LAST_COMMIT_MESSAGE=$(git log -1 --pretty=%B)
-          echo LAST_COMMIT_MESSAGE
+          LAST_COMMIT_MESSAGE=$(git log -1 --pretty=%B $GITHUB_REF)
           echo $LAST_COMMIT_MESSAGE
           if echo "$LAST_COMMIT_MESSAGE" | grep -qiE "feat"; then
             echo "VERSION_UPDATE_TYPE=MINOR" >> $GITHUB_ENV
