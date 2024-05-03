@@ -112,6 +112,11 @@ jobs:
           git commit -m "CI: bump version to ${{ steps.test.package_version.version }}"
           git tag -m "CI: create new tag" v${{ steps.test.package_version.version }}
           git push
+
+      - name: Print version number
+        run: |
+            echo ${{ steps.simple_minor.outputs.version }}
+            echo ${{ steps.simple_patch.outputs.version }}
           
   publish-docker-image:
     runs-on: ubuntu-latest
