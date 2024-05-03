@@ -3,6 +3,10 @@ name: Bump build version
 on:
   push:
     branches: [ main ]
+  workflow_run:
+    workflows: ["build_and_run_tests"]
+    types:
+      - completed
 
 env:
   VERSION_UPDATE_TYPE: "value"
