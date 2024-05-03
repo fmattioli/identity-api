@@ -119,23 +119,13 @@ jobs:
           file: src/Identity.Api/Identity.Api.csproj
           version: "*.*.^"
           
-      - name: Checkout
-        uses: actions/checkout@v3    
-      - name: Get csproj version
-        id: get_version
-        run: |
-          version=$(grep -oP '<Version>([^<]+)</Version>' src/Identity.Api/Identity.Api.csproj | grep -oP '(\d+\.\d+\.\d+)')
-          echo "::set-output name=csproj_version::$version"
-
-      - name: Print csproj version
-        run: echo "The csproj version is ${{ steps.get_version.outputs.csproj_version }}"
-        
+    
       - name: Commit and push changes
         run: |
           git config user.name "Build - Incrementing version | Github action"
           git config user.email "deploy@spendmanagement.com"
           git add .
-          git commit -m "Bump project version to ${{ steps.get_version.outputs.csproj_version }}"
+          git commit -m "Bump project version to"
           git push
           
   publish-docker-image:
