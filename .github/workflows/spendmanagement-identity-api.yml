@@ -77,39 +77,21 @@ jobs:
     needs: [unit-tests, integration-tests]
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Display appsettings before
-        run: cat src/Identity.Api/appsettings.Development.json
-      
-      - name: Change connection string
-        run: |
-          sed -i 's/localhost/postgresql/g' src/Identity.Api/appsettings.Development.json
-        working-directory: ${{ github.workspace }}
-
-      - name: Display appsettings after
-        run: cat src/Identity.Api/appsettings.Development.json
-
-      - name: Build Docker image
-        run: docker build -t fmattioli/spendmanagement-identity-api:1.0.0.5 .
-
-      - name: Log in to Docker Hub
-        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Determinar Tipo de Mudança
+      - name: Determinar Tipo de Mudança e Exibir Último Commit
         id: determine_change_type
         run: |
           LAST_COMMIT_MESSAGE=$(git log -1 --pretty=%B)
+          echo "Última mensagem de commit: $LAST_COMMIT_MESSAGE"
           if echo "$LAST_COMMIT_MESSAGE" | grep -qiE "feat"; then
             echo "VERSION_UPDATE_TYPE=MINOR" >> $GITHUB_ENV
           fi
           if echo "$LAST_COMMIT_MESSAGE" | grep -qiE "fix"; then
             echo "VERSION_UPDATE_TYPE=PATCH" >> $GITHUB_ENV
           fi
+
 
       - name: Bump version - MINOR
         if: env.VERSION_UPDATE_TYPE == 'MINOR'
@@ -133,6 +115,25 @@ jobs:
           git commit -m "CI: bump version to ${{ steps.test.package_version.version }}"
           git tag -m "CI: create new tag" v${{ steps.test.package_version.version }}
           git push
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Display appsettings before
+        run: cat src/Identity.Api/appsettings.Development.json
+      
+      - name: Change connection string
+        run: |
+          sed -i 's/localhost/postgresql/g' src/Identity.Api/appsettings.Development.json
+        working-directory: ${{ github.workspace }}
+
+      - name: Display appsettings after
+        run: cat src/Identity.Api/appsettings.Development.json
+
+      - name: Build Docker image
+        run: docker build -t fmattioli/spendmanagement-identity-api:1.0.0.5 .
+
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin      
 
       - name: Push Docker image to Docker Hub
         run: |
