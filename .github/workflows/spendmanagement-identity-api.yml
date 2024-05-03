@@ -1,21 +1,23 @@
-name: Get Last Commit Message
+name: Notify on Pull Request
 
 on:
-  push:
-    branches: 
-      - main
   pull_request:
-    branches:
-      - main
+    branches: [dev]
 
 jobs:
-  get_commit_message:
+  send_notification:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
 
-      - name: Get last commit message
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: ${{github.event.after}}
+      - name: Get Commit Message
         run: |
-          git log -1 --pretty=%B ${{ github.event.after }} > commit_message.txt
-          cat commit_message.txt
+          MSG=$(git log --format=%B -n 1 ${{github.event.after}})
+          echo "::set-env name=COMMIT_MESSAGE::${MSG}"
+      - name: Echo commit message
+        run: |
+          echo "Commit SHA: ${{github.event.after}}, commit message: ${{env.COMMIT_MESSAGE}} (or ${COMMIT_MESSAGE})"
