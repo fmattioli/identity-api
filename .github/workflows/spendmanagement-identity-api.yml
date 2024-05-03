@@ -117,7 +117,7 @@ jobs:
         uses: vers-one/dotnet-project-version-updater@v1.5
         with:
           file: src/Identity.Api/Identity.Api.csproj
-          version: bump-revision
+          version: "*.*.^"
 
       - name: Commit and push changes
         run: |
