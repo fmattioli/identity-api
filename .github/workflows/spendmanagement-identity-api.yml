@@ -127,6 +127,11 @@ jobs:
 
       - name: Print csproj version
         run: echo "The csproj version is ${{ steps.get_version.outputs.csproj_version }}"
+
+      - name: Setar valor de VERSION_UPDATE_TYPE
+        run: |
+          echo "VERSION_UPDATE_TYPE=${{ steps.get_version.outputs.csproj_version }}" >> $GITHUB_ENV
+
           
   publish-docker-image:
     runs-on: ubuntu-latest
