@@ -148,7 +148,7 @@ jobs:
         run: cat src/Identity.Api/appsettings.Development.json
   
       - name: Build Docker image
-        run: docker build -t "fmattioli/spendmanagement-identity-api:${{ env.VERSION_UPDATE_TYPE }}-${{ steps.get_version.outputs.csproj_version }}" .
+        run: docker build -t "fmattioli/spendmanagement-identity-api:${{ steps.get_version.outputs.csproj_version }}" .
 
   
       - name: Log in to Docker Hub
@@ -156,8 +156,8 @@ jobs:
   
       - name: Push Docker image to Docker Hub
         run: |
-            docker push fmattioli/spendmanagement-identity-api:${{ steps.get_version.outputs.csproj_version }}
-            docker tag fmattioli/spendmanagement-identity-api:${{ steps.get_version.outputs.csproj_version }}" fmattioli/spendmanagement-identity-api:latest
-            docker push fmattioli/spendmanagement-identity-api:latest
+            docker push "fmattioli/spendmanagement-identity-api:${{ steps.get_version.outputs.csproj_version }}"
+            docker tag "fmattioli/spendmanagement-identity-api:${{ steps.get_version.outputs.csproj_version }}" "fmattioli/spendmanagement-identity-api:latest"
+            docker push "fmattioli/spendmanagement-identity-api:latest"
 
 
