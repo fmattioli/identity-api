@@ -9,5 +9,8 @@ jobs:
   print_commit_message:
     runs-on: ubuntu-latest
     steps:
-      - name: Print Commit Message
-        run: echo "${{ github.event.pull_request.head.sha }}"
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Get Commit Message
+        run: echo "$(git log -1 --pretty=%B)"
