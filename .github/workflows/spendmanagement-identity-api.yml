@@ -118,13 +118,24 @@ jobs:
         with:
           file: src/Identity.Api/Identity.Api.csproj
           version: "*.*.^"
+          
+      - name: Checkout
+        uses: actions/checkout@v3    
+      - name: Get csproj version
+        id: get_version
+        run: |
+          version=$(xmllint --xpath "//*[local-name()='Project']/@Version" src/Identity.Api/Identity.Api.csproj)
+          echo "::set-output name=csproj_version::$version"
 
+      - name: Print csproj version
+        run: echo "The csproj version is ${{ steps.get_version.outputs.csproj_version }}"
+        
       - name: Commit and push changes
         run: |
           git config user.name "Build - Incrementing version | Github action"
           git config user.email "deploy@spendmanagement.com"
           git add .
-          git commit -m "Bump project version to ${{ steps.update.outputs.newVersion }}"
+          git commit -m "Bump project version to ${{ steps.update.outputs.newVersion }}-${{ steps.update.outputs.newVersion }}"
           git push
           
   publish-docker-image:
