@@ -135,7 +135,7 @@ jobs:
           git config user.name "Build - Incrementing version | Github action"
           git config user.email "deploy@spendmanagement.com"
           git add .
-          git commit -m "Bump project version to ${{ steps.update.outputs.newVersion }}-${{ steps.update.outputs.newVersion }}"
+          git commit -m "Bump project version to ${{ steps.get_version.outputs.csproj_version }}"
           git push
           
   publish-docker-image:
