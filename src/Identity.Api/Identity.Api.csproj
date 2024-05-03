@@ -9,16 +9,16 @@
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <NoWarn>1701;1702;1591</NoWarn>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.5" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.5"/>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
   </ItemGroup>
   <ItemGroup>
-    <InternalsVisibleTo Include="Identity.IntegrationTests" />
+    <InternalsVisibleTo Include="Identity.IntegrationTests"/>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Identity.IoC\Identity.IoC.csproj" />
+    <ProjectReference Include="..\Identity.IoC\Identity.IoC.csproj"/>
   </ItemGroup>
 </Project>
