@@ -133,7 +133,7 @@ jobs:
         run: cat src/Identity.Api/appsettings.Development.json
   
       - name: Build Docker image
-        run: docker build -t fmattioli/spendmanagement-identity-api:${{ steps.test.package_version.version }}" .
+        run: docker build -t fmattioli/spendmanagement-identity-api:${{ steps.test.package_version.version }} .
   
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
