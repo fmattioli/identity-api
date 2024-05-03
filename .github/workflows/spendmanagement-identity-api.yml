@@ -108,7 +108,6 @@ jobs:
           file: src/Identity.Api/Identity.Api.csproj
           version: "*.*.^"
           
-    
       - name: Commit and push changes
         run: |
           git config user.name "Build - Incrementing version | Github action"
@@ -116,21 +115,6 @@ jobs:
           git add .
           git commit -m "Bump project version to"
           git push
-
-      - name: Checkout
-        uses: actions/checkout@v3    
-      - name: Get csproj version
-        id: get_version
-        run: |
-          version=$(grep -oP '<Version>([^<]+)</Version>' src/Identity.Api/Identity.Api.csproj | grep -oP '(\d+\.\d+\.\d+)')
-          echo "::set-output name=csproj_version::$version"
-
-      - name: Print csproj version
-        run: echo "The csproj version is ${{ steps.get_version.outputs.csproj_version }}"
-
-      - name: Setar valor de VERSION_UPDATE_TYPE
-        run: |
-          echo "VERSION_UPDATE_TYPE=${{ steps.get_version.outputs.csproj_version }}" >> $GITHUB_ENV
 
           
   publish-docker-image:
@@ -151,9 +135,20 @@ jobs:
   
       - name: Display appsettings after
         run: cat src/Identity.Api/appsettings.Development.json
-  
+
+      - name: Checkout
+        uses: actions/checkout@v3    
+      - name: Get csproj version
+        id: get_version
+        run: |
+          version=$(grep -oP '<Version>([^<]+)</Version>' src/Identity.Api/Identity.Api.csproj | grep -oP '(\d+\.\d+\.\d+)')
+          echo "::set-output name=csproj_version::$version"
+
+      - name: Print csproj version
+        run: echo "The csproj version is ${{ steps.get_version.outputs.csproj_version }}"
+        
       - name: Build Docker image
-        run: docker build -t "fmattioli/spendmanagement-identity-api:${{ env.VERSION_UPDATE_TYPE }}" .
+        run: docker build -t "fmattioli/spendmanagement-identity-api:${{ steps.get_version.outputs.csproj_version }}" .
 
   
       - name: Log in to Docker Hub
@@ -161,8 +156,8 @@ jobs:
   
       - name: Push Docker image to Docker Hub
         run: |
-            docker push "fmattioli/spendmanagement-identity-api:${{ env.VERSION_UPDATE_TYPE }}"
-            docker tag "fmattioli/spendmanagement-identity-api:${{ env.VERSION_UPDATE_TYPE }}" "fmattioli/spendmanagement-identity-api:latest"
+            docker push "fmattioli/spendmanagement-identity-api:${{ steps.get_version.outputs.csproj_version }}"
+            docker tag "fmattioli/spendmanagement-identity-api:${{ steps.get_version.outputs.csproj_version }}" "fmattioli/spendmanagement-identity-api:latest"
             docker push "fmattioli/spendmanagement-identity-api:latest"
 
 
