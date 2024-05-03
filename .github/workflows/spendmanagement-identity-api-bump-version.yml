@@ -60,21 +60,16 @@ jobs:
 
       - name: Display appsettings before
         run: cat src/Identity.Api/appsettings.Development.json
-        
       - name: Change connection string
         run: |
           sed -i 's/localhost/postgresql/g' src/Identity.Api/appsettings.Development.json
           working-directory: ${{ github.workspace }}
-  
       - name: Display appsettings after
         run: cat src/Identity.Api/appsettings.Development.json
-  
       - name: Build Docker image
         run: docker build -t fmattioli/spendmanagement-identity-api:1.0.0.5 .
-  
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-  
       - name: Push Docker image to Docker Hub
         run: |
             docker push fmattioli/spendmanagement-identity-api:1.0.0.5
