@@ -119,6 +119,11 @@ jobs:
           file: src/Identity.Api/Identity.Api.csproj
           version: bump-revision
 
+      - name: Definir nova versão
+        id: define_new_version
+        run: |
+          echo "::set-output name=new_version::${{ coalesce(steps.bump-minor.outputs.newVersion, steps.bump-revision.outputs.newVersion) }}"
+
       - name: Commit and push changes
         run: |
           git config user.name "Build - Incrementing version | Github action"
