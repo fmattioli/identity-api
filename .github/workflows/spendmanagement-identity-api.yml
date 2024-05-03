@@ -109,7 +109,7 @@ jobs:
         uses: vers-one/dotnet-project-version-updater@v1.5
         with:
           file: src/Identity.Api/Identity.Api.csproj
-          version: bump-minor
+          version: "*.^.0"
 
       - name: Bump build version - Revision
         if: env.VERSION_UPDATE_TYPE == 'REVISION'
@@ -118,11 +118,6 @@ jobs:
         with:
           file: src/Identity.Api/Identity.Api.csproj
           version: bump-revision
-
-      - name: Definir nova versão
-        id: define_new_version
-        run: |
-          echo "::set-output name=new_version::${{ coalesce(steps.bump-minor.outputs.newVersion, steps.bump-revision.outputs.newVersion) }}"
 
       - name: Commit and push changes
         run: |
