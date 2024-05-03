@@ -78,20 +78,30 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Determinar Tipo de Mudança e Exibir Último Commit
+      - name: Install .NET 8
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8
+
+      - name: Restore dependencies
+        run: dotnet restore src/Identity.Api/Identity.Api.csproj
+
+      - name: Determinar Tipo de Mudança
         id: determine_change_type
         run: |
           LAST_COMMIT_MESSAGE=$(git log -1 --pretty=%B)
-          echo "Última mensagem de commit: $LAST_COMMIT_MESSAGE"
           if echo "$LAST_COMMIT_MESSAGE" | grep -qiE "feat"; then
             echo "VERSION_UPDATE_TYPE=MINOR" >> $GITHUB_ENV
           fi
           if echo "$LAST_COMMIT_MESSAGE" | grep -qiE "fix"; then
             echo "VERSION_UPDATE_TYPE=PATCH" >> $GITHUB_ENV
           fi
-
+      
+      - name: Print Update type
+        run: |
+          echo "Tipo de Mudança: $VERSION_UPDATE_TYPE"
 
       - name: Bump version - MINOR
         if: env.VERSION_UPDATE_TYPE == 'MINOR'
