@@ -149,7 +149,7 @@ jobs:
         run: echo "The csproj version is $csproj_version"
         
       - name: Build Docker image
-        run: docker build -t "fmattioli/spendmanagement-identity-api:${{ steps.get_version.outputs.csproj_version }}" .
+        run: docker build -t "fmattioli/spendmanagement-identity-api:$csproj_version"" .
 
   
       - name: Log in to Docker Hub
@@ -157,8 +157,8 @@ jobs:
   
       - name: Push Docker image to Docker Hub
         run: |
-            docker push "fmattioli/spendmanagement-identity-api:${{ steps.get_version.outputs.csproj_version }}"
-            docker tag "fmattioli/spendmanagement-identity-api:${{ steps.get_version.outputs.csproj_version }}" "fmattioli/spendmanagement-identity-api:latest"
+            docker push "fmattioli/spendmanagement-identity-api:$csproj_version""
+            docker tag "fmattioli/spendmanagement-identity-api:$csproj_version" "fmattioli/spendmanagement-identity-api:latest"
             docker push "fmattioli/spendmanagement-identity-api:latest"
 
 
