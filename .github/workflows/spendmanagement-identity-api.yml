@@ -110,6 +110,7 @@ jobs:
           version: "*.*.^"
           
       - name: Commit and push changes
+        if: env.VERSION_UPDATE_TYPE == 'REVISION' || env.VERSION_UPDATE_TYPE == 'MINOR'
         run: |
           git config user.name "Build - Incrementing version | Github action"
           git config user.email "deploy@spendmanagement.com"
@@ -129,10 +130,8 @@ jobs:
         run: |
           version=$(grep -oP '<Version>([^<]+)</Version>' src/Identity.Api/Identity.Api.csproj | grep -oP '(\d+\.\d+\.\d+)')
           echo "csproj_version=$version" >> $GITHUB_ENV
-
-      - name: Print csproj version
-        run: echo "The csproj version is $csproj_version"
-
+          echo "The csproj version is $csproj_version"
+          
       - name: Checkout repository
         uses: actions/checkout@v4
 
