@@ -116,8 +116,7 @@ jobs:
           git add .
           git commit -m "CI: Updating application version"
           git push
-
-          
+        
   publish-docker-image:
     runs-on: ubuntu-latest
     needs: [bump-project-version]
