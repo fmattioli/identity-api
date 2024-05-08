@@ -167,6 +167,7 @@ jobs:
         working-directory: ${{ github.workspace }}
 
       - name: Display appsettings after changes
+        if: env.VERSION_UPDATE_TYPE == 'MINOR' || env.VERSION_UPDATE_TYPE == 'REVISION'
         run: cat src/Identity.Api/appsettings.Development.json
         
       - name: Build Docker image
