@@ -167,5 +167,25 @@ namespace SpendManagement.Identity.API.Controllers
 
             return Ok(userClaims);
         }
+
+        /// <summary>
+        /// Get user claims
+        /// </summary>
+        /// <returns>Return users in claims</returns>
+        /// <response code="201">User logged with sucessfully</response>
+        /// <response code="400">Validation errors</response>
+        /// <response code="401">Authentication error</response>
+        /// <response code="500">Internal error</response>
+        [HttpGet]
+        [Route("testCircuitBraker", Name = nameof(TestCircuitBraker))]
+        [ProducesResponseType(typeof(UserLoginResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        [Authorize]
+        public ActionResult TestCircuitBraker()
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, new { message = "Erro interno do servidor" });
+        }
     }
 }
