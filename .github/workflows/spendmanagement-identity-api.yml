@@ -86,8 +86,6 @@ jobs:
     env:
       VERSION: ${{ needs.bump.outputs.version }}
       VERSION_UPDATE_TYPE: ${{ needs.bump.outputs.version_update_type }}
-    outputs:
-      version: ${{ steps.publish-image.outputs.VERSION }} 
     steps:      
       - name: Print version + type
         if: env.VERSION_UPDATE_TYPE == 'MINOR' || env.VERSION_UPDATE_TYPE == 'REVISION'
@@ -129,16 +127,18 @@ jobs:
             docker push "fmattioli/spendmanagement-identity-api:latest"
             echo "VERSION=${{ steps.bump-minor.outputs.newVersion }}" >> $GITHUB_OUTPUT
   Deploy:
-    needs: [publish-docker-image]
+    needs: [bump, publish-docker-image]
     name: Start deploy on Render
     runs-on: ubuntu-latest
     env:
-      VERSION: ${{ needs.publish-docker-image.outputs.version }}
+      DEPLOY_URL: 'https://api.render.com/deploy/srv-cov12mfsc6pc73atde8g?key=GM5ok5a3IKo'
+      IMAGE_URL: 'docker.io/fmattioli/spendmanagement-identity-api:latest'
+      VERSION_UPDATE_TYPE: ${{ needs.bump.outputs.version_update_type }}
     steps:
       - name: Deploy Render
         if: github.ref == 'refs/heads/main'
         run: |
-          echo $env.VERSION
+          echo $VERSION_UPDATE_TYPE
           echo "$DEPLOY_URL&imgUrl=$IMAGE_URL"
           
           
