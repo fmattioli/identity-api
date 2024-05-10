@@ -86,6 +86,8 @@ jobs:
     env:
       VERSION: ${{ needs.bump.outputs.version }}
       VERSION_UPDATE_TYPE: ${{ needs.bump.outputs.version_update_type }}
+    outputs:
+      version: ${{ steps.publish-image.outputs.VERSION }} 
     steps:      
       - name: Print version + type
         if: env.VERSION_UPDATE_TYPE == 'MINOR' || env.VERSION_UPDATE_TYPE == 'REVISION'
@@ -119,24 +121,24 @@ jobs:
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
   
       - name: Push Docker image to Docker Hub
+        id: publish-image
         if: env.VERSION_UPDATE_TYPE == 'MINOR' || env.VERSION_UPDATE_TYPE == 'REVISION'
         run: |
             docker push "fmattioli/spendmanagement-identity-api:$VERSION"
             docker tag "fmattioli/spendmanagement-identity-api:$VERSION" "fmattioli/spendmanagement-identity-api:latest"
             docker push "fmattioli/spendmanagement-identity-api:latest"
+            echo "VERSION=${{ steps.bump-minor.outputs.newVersion }}" >> $GITHUB_OUTPUT
   Deploy:
     needs: [publish-docker-image]
     name: Start deploy on Render
     runs-on: ubuntu-latest
     env:
-      DEPLOY_URL: 'https://api.render.com/deploy/srv-cov12mfsc6pc73atde8g?key=GM5ok5a3IKo'
-      IMAGE_URL: 'docker.io/fmattioli/spendmanagement-identity-api:latest'
-      VERSION_UPDATE_TYPE_DEPLOY: ${{ needs.publish-docker-image.outputs['publish-docker-image.VERSION_UPDATE_TYPE'] }}
+      VERSION: ${{ needs.publish-docker-image.outputs.version }}
     steps:
       - name: Deploy Render
         if: github.ref == 'refs/heads/main'
         run: |
-          echo $VERSION_UPDATE_TYPE_DEPLOY
+          echo $VERSION
           echo "$DEPLOY_URL&imgUrl=$IMAGE_URL"
           
           
