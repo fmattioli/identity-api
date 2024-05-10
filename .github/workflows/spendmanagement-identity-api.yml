@@ -7,6 +7,7 @@ on:
 
 jobs:
   build:
+    name: Build application
     runs-on: ubuntu-latest
 
     steps:
@@ -22,6 +23,7 @@ jobs:
 
   unit-tests:
     runs-on: ubuntu-latest
+    name: Running UnitTests
     needs: [build]
     steps:
       - uses: actions/checkout@v4
@@ -37,6 +39,7 @@ jobs:
         run: dotnet test --verbosity normal tests/Identity.UnitTests/Identity.UnitTests.csproj
 
   integration-tests:
+    name: Running IntegrationTests
     runs-on: ubuntu-latest
     needs: [unit-tests]
     steps:
@@ -68,6 +71,7 @@ jobs:
           dotnet test --verbosity normal tests/Identity.IntegrationTests/Identity.IntegrationTests.csproj
 
   bump:
+    name: Update project version
     runs-on: ubuntu-latest
     needs: [build,unit-tests, integration-tests]
     outputs:
@@ -75,7 +79,6 @@ jobs:
       version_update_type: ${{ steps.determine_update_type.outputs.VERSION_UPDATE_TYPE }} 
       
     if: github.ref == 'refs/heads/main'
-    name: Build and bump version
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -141,6 +144,7 @@ jobs:
           fi
          
   publish-docker-image:
+    name: Publish new docker image
     needs: [bump]
     runs-on: ubuntu-latest
     env:
@@ -184,3 +188,17 @@ jobs:
             docker push "fmattioli/spendmanagement-identity-api:$VERSION"
             docker tag "fmattioli/spendmanagement-identity-api:$VERSION" "fmattioli/spendmanagement-identity-api:latest"
             docker push "fmattioli/spendmanagement-identity-api:latest"
+  Deploy:
+    needs: [publish-docker-image]
+    name: Start deploy on Render
+    runs-on: ubuntu-latest
+    env:
+      DEPLOY_URL: 'https://api.render.com/deploy/srv-cov12mfsc6pc73atde8g?key=GM5ok5a3IKo'
+      IMAGE_URL: 'docker.io/fmattioli/spendmanagement-identity-api:latest'
+      VERSION_UPDATE_TYPE: '${{ needs.bump.outputs.version_update_type }}'
+    steps:
+      - name: Deploy Render
+        if: github.ref == 'refs/heads/main' && env.VERSION_UPDATE_TYPE == 'MINOR' || env.VERSION_UPDATE_TYPE == 'REVISION'
+        run: |
+          echo "$DEPLOY_URL&imgUrl=$IMAGE_URL"
+          curl "$DEPLOY_URL&imgUrl=$IMAGE_URL"            
