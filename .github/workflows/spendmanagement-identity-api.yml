@@ -131,7 +131,7 @@ jobs:
     env:
       DEPLOY_URL: 'https://api.render.com/deploy/srv-cov12mfsc6pc73atde8g?key=GM5ok5a3IKo'
       IMAGE_URL: 'docker.io/fmattioli/spendmanagement-identity-api:latest'
-      VERSION_UPDATE_TYPE_DEPLOY: ${{ needs.bump.outputs.version_update_type }}
+      VERSION_UPDATE_TYPE_DEPLOY: ${{ needs.publish-docker-image.outputs['publish-docker-image.VERSION_UPDATE_TYPE'] }}
     steps:
       - name: Deploy Render
         if: github.ref == 'refs/heads/main'
