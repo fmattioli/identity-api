@@ -125,7 +125,6 @@ jobs:
             docker push "fmattioli/spendmanagement-identity-api:$VERSION"
             docker tag "fmattioli/spendmanagement-identity-api:$VERSION" "fmattioli/spendmanagement-identity-api:latest"
             docker push "fmattioli/spendmanagement-identity-api:latest"
-            echo "VERSION=${{ steps.bump-minor.outputs.newVersion }}" >> $GITHUB_OUTPUT
   Deploy:
     needs: [bump, publish-docker-image]
     name: Start deploy on Render
